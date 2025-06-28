@@ -33,9 +33,9 @@ public class ProductController {
         productRepo.save(product);
     }
 
-    @PutMapping("/admin/product/{pId}")
-    public void updateProductByPId(@PathVariable Integer pId, @RequestBody Product product){
-        product.setpId(pId);
+    @PutMapping("/admin/product/{productId}")
+    public void updateProductByPId(@PathVariable Integer productId, @RequestBody Product product){
+        product.setProductId(productId);
         productRepo.save(product);
     }
 

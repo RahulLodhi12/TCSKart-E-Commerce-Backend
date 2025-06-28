@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pId;
+    private Integer productId;
     private String productName;
     private Double price;
     private String description;
@@ -21,8 +21,8 @@ public class Product {
 
     }
 
-    public Product(Integer pId, String productName, Double price, String description, Double rating, String category, Integer quantity) {
-        this.pId = pId;
+    public Product(Integer productId, String productName, Double price, String description, Double rating, String category, Integer quantity) {
+        this.productId = productId;
         this.productName = productName;
         this.price = price;
         this.description = description;
@@ -31,12 +31,12 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public Integer getpId() {
-        return pId;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setpId(Integer pId) {
-        this.pId = pId;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
