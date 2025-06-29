@@ -3,6 +3,9 @@ package com.tcsKart.UserService.bean;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+
+//import javax.persistence.*;
+
 @Entity
 public class Admin {
     @Id
