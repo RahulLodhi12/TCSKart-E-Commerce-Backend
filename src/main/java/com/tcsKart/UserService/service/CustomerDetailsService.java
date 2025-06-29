@@ -3,40 +3,26 @@ package com.tcsKart.UserService.service;
 import com.tcsKart.UserService.bean.Customer;
 import com.tcsKart.UserService.repository.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.Collections;
 
-/*
-Spring will automatically use MyUserDetailsService class when we write:
-    - auth.userDetailsService(userDetailsService);
-*/
+@Service
+public class CustomerDetailsService implements UserDetailsService {
 
-@Service("customerDetailsService")
-public class CustomerDetailsService implements UserDetailsService{
-
-    @Autowired //Injects the SignupRepo object/bean (automatically created by Spring), which object/bean is already created by the Spring IOC early before this injections
-    CustomerRepo customerRepo;
+    @Autowired
+    private CustomerRepo customerRepo;
 
     @Override
-    public UserDetails loadUserByUsername(String customerEmail) throws UsernameNotFoundException {
-        Optional<Customer> customer = customerRepo.findByCustomerEmail(customerEmail);
-
-        if(customer.isPresent()){
-            return new CustomerDetails(customer.get()); //We can't directly return object of UserDetails, since UserDetails is an interface.
-        }
-        else{
-            throw new UsernameNotFoundException("User Not Found..");
-        }
-        /*
-        ✅ If user is found:
-            - It returns a new instance of MyUserDetails, a custom class that implements UserDetails.
-            - This object holds user’s username, password, roles, etc., and Spring uses it for authentication.
-
-        ❌ If user is not found, an exception is thrown → Spring Security rejects login and shows an error.
-        */
+    public UserDetails loadUserByUsername(String email) {
+        Customer customer = customerRepo.findByCustomerEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Customer not found"));
+        return new User(customer.getCustomerEmail(), customer.getCustomerPassword(),
+                Collections.singleton(new SimpleGrantedAuthority(customer.getRole())));
     }
 }

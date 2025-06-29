@@ -41,22 +41,22 @@ public class CustomerController {
         customerRepo.save(customer);
     }
 
-    @PostMapping("/customer/login")
-    public String createAuthToken(@RequestBody Customer customer) throws Exception {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(customer.getCustomerEmail(), customer.getCustomerPassword())
-            );
-        } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
-        }
-
-        final UserDetails userDetails = customerDetailsService
-                .loadUserByUsername(customer.getCustomerEmail());
-
-        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
-        return jwt;
-    }
+//    @PostMapping("/customer/login")
+//    public String createAuthToken(@RequestBody Customer customer) throws Exception {
+//        try {
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(customer.getCustomerEmail(), customer.getCustomerPassword())
+//            );
+//        } catch (BadCredentialsException e) {
+//            throw new Exception("Incorrect username or password", e);
+//        }
+//
+//        final UserDetails userDetails = customerDetailsService
+//                .loadUserByUsername(customer.getCustomerEmail());
+//
+//        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+//        return jwt;
+//    }
 
     @GetMapping("customer/{customerEmail}")
     public Optional<Customer> getCustomerDetailsByEmail(@PathVariable String customerEmail, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken){

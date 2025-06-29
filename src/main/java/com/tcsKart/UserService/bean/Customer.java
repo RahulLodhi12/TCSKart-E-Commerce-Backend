@@ -1,9 +1,7 @@
 package com.tcsKart.UserService.bean;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.tcsKart.CartService.bean.Cart;
+import jakarta.persistence.*;
 
 //import javax.persistence.*;
 
@@ -16,6 +14,9 @@ public class Customer {
     private String address;
     private String pincode;
     private final String role="ROLE_CUSTOMER";
+
+    @OneToOne(mappedBy = "customer") //This doesn't create any column in "customer" table.
+    private Cart cart;
 
     public Customer(){
 
