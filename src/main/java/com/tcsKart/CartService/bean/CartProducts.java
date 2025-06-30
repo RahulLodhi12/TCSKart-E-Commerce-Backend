@@ -1,5 +1,6 @@
 package com.tcsKart.CartService.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tcsKart.ProductService.bean.Product;
 import jakarta.persistence.*;
 
@@ -9,7 +10,8 @@ public class CartProducts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cartProductId;
 
-    @ManyToOne //Many Cart Products belongs to one Cart(cart_id)
+    @JsonIgnore
+    @ManyToOne //Many Cart Products belongs to one Cart(cart_id) AND make "cart_id" of Foreign Key of "CartProducts" Table
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
