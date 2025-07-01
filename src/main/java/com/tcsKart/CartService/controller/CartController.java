@@ -203,5 +203,7 @@ public class CartController {
             orderProducts.setQuantity(cp.getQuantity());
             orderProductsRepo.save(orderProducts);
         }
+
+        cartRepo.deleteById(cartId);
     }
 }
