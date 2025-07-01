@@ -1,5 +1,6 @@
 package com.tcsKart.OrderService.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tcsKart.ProductService.bean.Product;
 import jakarta.persistence.*;
 
@@ -15,6 +16,7 @@ public class OrderProducts {
 
     @ManyToOne //make "order_id" of "OrderProducts" table Foreign Key
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Orders orders;
 
     private Integer quantity;

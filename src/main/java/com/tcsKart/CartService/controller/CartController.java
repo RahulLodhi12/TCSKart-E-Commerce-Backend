@@ -4,8 +4,10 @@ import com.tcsKart.CartService.bean.Cart;
 import com.tcsKart.CartService.bean.CartProducts;
 import com.tcsKart.CartService.repository.CartProductsRepo;
 import com.tcsKart.CartService.repository.CartRepo;
+import com.tcsKart.OrderService.bean.OrderHistory;
 import com.tcsKart.OrderService.bean.OrderProducts;
 import com.tcsKart.OrderService.bean.Orders;
+import com.tcsKart.OrderService.repository.OrderHistoryRepo;
 import com.tcsKart.OrderService.repository.OrderProductsRepo;
 import com.tcsKart.OrderService.repository.OrderRepo;
 import com.tcsKart.ProductService.bean.Product;
@@ -41,6 +43,9 @@ public class CartController {
 
     @Autowired
     OrderProductsRepo orderProductsRepo;
+
+    @Autowired
+    OrderHistoryRepo orderHistoryRepo;
 
     @PostMapping("/customer/{customerEmail}/{productId}") //Need to take the CustomerEmail From JWT Token -> refer the CustomerController.java under "UserService" package
     public void addToCart(@PathVariable String customerEmail, @PathVariable Integer productId) throws ClassNotFoundException {
@@ -203,6 +208,13 @@ public class CartController {
             orderProducts.setQuantity(cp.getQuantity());
             orderProductsRepo.save(orderProducts);
         }
+
+        OrderHistory orderHistory = new OrderHistory();
+        orderHistory.setOrderProductsList(orderProductsList);
+        orderHistory.setOrders(orders);
+        orderHistory.setAmount(orders.getAmount());
+        orderHistory.setDate(orders.getDate());
+        orderHistoryRepo.save(orderHistory);
 
         cartRepo.deleteById(cartId);
     }
