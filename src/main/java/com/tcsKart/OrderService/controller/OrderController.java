@@ -1,7 +1,6 @@
 package com.tcsKart.OrderService.controller;
 
 import com.tcsKart.OrderService.bean.OrderHistory;
-import com.tcsKart.OrderService.bean.OrderProducts;
 import com.tcsKart.OrderService.bean.Orders;
 import com.tcsKart.OrderService.repository.OrderHistoryRepo;
 import com.tcsKart.OrderService.repository.OrderProductsRepo;
@@ -36,6 +35,9 @@ public class OrderController {
         return orderHistoryRepo.findByOrdersCustomerCustomerEmail(customerEmail);
     }
 
-
+    @GetMapping("/admin/allOrders")
+    public List<Orders> getAllOrders(){
+        return orderRepo.findAll();
+    }
 
 }
