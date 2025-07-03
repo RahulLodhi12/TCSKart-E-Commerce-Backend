@@ -40,4 +40,15 @@ public class OrderController {
         return orderRepo.findAll();
     }
 
+    @GetMapping("/customer/{customerEmail}/orderStatus")
+    public List<Orders> checkOrderStatus(@PathVariable String customerEmail){
+        List<Orders> ordersList = orderRepo.findByCustomerCustomerEmail(customerEmail);
+        if(ordersList.isEmpty()){
+            System.out.println("Fetch error..1");
+            return null;
+        }
+
+        return ordersList;
+    }
+
 }

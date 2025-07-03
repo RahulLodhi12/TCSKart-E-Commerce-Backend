@@ -15,10 +15,8 @@ import com.tcsKart.ProductService.repository.ProductRepo;
 import com.tcsKart.UserService.bean.Customer;
 import com.tcsKart.UserService.repository.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -215,6 +213,8 @@ public class CartController {
         orderHistory.setAmount(orders.getAmount());
         orderHistory.setDate(orders.getDate());
         orderHistoryRepo.save(orderHistory);
+
+
 
         cartRepo.deleteById(cartId);
     }
