@@ -36,7 +36,7 @@ public class CustomerController {
         return customerRepo.findAll();
     }
 
-    @PostMapping("/customer/register")
+    @PostMapping("/register")
     public void registration(@RequestBody Customer customer){
         customerRepo.save(customer);
     }

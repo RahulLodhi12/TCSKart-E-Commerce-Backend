@@ -39,6 +39,7 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/login").permitAll()
+                .requestMatchers("/register").permitAll()
                 .requestMatchers("/product/**").permitAll()  // ✅ Public access to all /product/... routes
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/customer/**").hasAuthority("ROLE_CUSTOMER")

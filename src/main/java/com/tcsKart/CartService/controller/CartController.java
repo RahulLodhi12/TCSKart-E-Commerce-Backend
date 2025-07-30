@@ -15,6 +15,8 @@ import com.tcsKart.ProductService.repository.ProductRepo;
 import com.tcsKart.UserService.bean.Customer;
 import com.tcsKart.UserService.repository.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -44,6 +46,9 @@ public class CartController {
 
     @Autowired
     OrderHistoryRepo orderHistoryRepo;
+
+    @Autowired
+    JavaMailSender javaMailSender;
 
     @PostMapping("/customer/{customerEmail}/{productId}") //Need to take the CustomerEmail From JWT Token -> refer the CustomerController.java under "UserService" package
     public void addToCart(@PathVariable String customerEmail, @PathVariable Integer productId) throws ClassNotFoundException {
@@ -185,6 +190,15 @@ public class CartController {
             int pId = cp.getProduct().getProductId();
             Optional<Product> product = productRepo.findById(pId);
             int qty = cp.getQuantity();
+
+            int stock = product.get().getQuantity();
+            int rem = stock-qty;
+            if(rem<0){
+                System.out.println("Out of Stock..!!");
+                continue;
+            }
+            product.get().setQuantity(rem);
+
             op.setQuantity(qty);
             op.setProduct(product.get());
             op.setOrders(orders);
@@ -214,8 +228,17 @@ public class CartController {
         orderHistory.setDate(orders.getDate());
         orderHistoryRepo.save(orderHistory);
 
-
-
         cartRepo.deleteById(cartId);
+
+
+        //sending a mail
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("amankumarsharma877@gmail.com");
+        message.setTo(customerEmail);
+        message.setText("order is placed..");
+        message.setSubject("Order is Placed..");
+
+        javaMailSender.send(message);
+        System.out.println("Mail sent successfully...");
     }
 }
