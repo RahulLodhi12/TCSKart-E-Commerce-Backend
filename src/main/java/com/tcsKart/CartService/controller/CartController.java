@@ -193,9 +193,16 @@ public class CartController {
 
             int stock = product.get().getQuantity();
             int rem = stock-qty;
-            if(rem<0){
-                System.out.println("Out of Stock..!!");
-                continue;
+            if(rem<5){
+                System.out.println("Low-Stock..!!");
+                //sending a alert..
+                SimpleMailMessage msg = new SimpleMailMessage();
+                msg.setFrom("amankumarsharma877@gmail.com");
+                msg.setTo("rahullodhi8900@gmail.com"); //admin
+                msg.setText("Low-Stock: Check Product: " + cp.getProduct().getProductName() + " " + cp.getProduct().getProductId());
+                msg.setSubject("Low-Stock Alert..!");
+
+                javaMailSender.send(msg);
             }
             product.get().setQuantity(rem);
 
