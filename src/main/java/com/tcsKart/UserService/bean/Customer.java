@@ -1,7 +1,11 @@
 package com.tcsKart.UserService.bean;
 
 import com.tcsKart.CartService.bean.Cart;
+import com.tcsKart.ProductService.bean.Review;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //import javax.persistence.*;
 
@@ -18,8 +22,21 @@ public class Customer {
     @OneToOne(mappedBy = "customer") //This doesn't create any column in "customer" table.
     private Cart cart;
 
+    @OneToMany(mappedBy = "customer")
+    private List<Review> reviewList = new ArrayList<>();
+
     public Customer(){
 
+    }
+
+    public Customer(String customerEmail, String customerPassword, String customerName, String address, String pincode, Cart cart, List<Review> reviewList) {
+        this.customerEmail = customerEmail;
+        this.customerPassword = customerPassword;
+        this.customerName = customerName;
+        this.address = address;
+        this.pincode = pincode;
+        this.cart = cart;
+        this.reviewList = reviewList;
     }
 
     public Customer(String customerEmail, String customerPassword, String customerName, String address, String pincode) {
@@ -72,5 +89,21 @@ public class Customer {
 
     public String getRole() {
         return role;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
     }
 }

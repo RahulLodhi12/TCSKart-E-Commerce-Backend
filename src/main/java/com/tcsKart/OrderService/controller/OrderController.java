@@ -8,9 +8,11 @@ import com.tcsKart.OrderService.repository.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class OrderController {
@@ -49,6 +51,18 @@ public class OrderController {
         }
 
         return ordersList;
+    }
+
+    @GetMapping("/admin/status/{orderId}")
+    public Optional<Orders> getStatusByOrderId(@PathVariable Integer orderId){
+        return orderRepo.findById(orderId);
+    }
+
+    @PostMapping("/admin/status/{orderId}/{status}")
+    public void updateOrderStatus(@PathVariable Integer orderId, @PathVariable String status){
+        Optional<Orders> order = orderRepo.findById(orderId);
+        order.get().setStatus(status);
+        orderRepo.save(order.get());
     }
 
 }

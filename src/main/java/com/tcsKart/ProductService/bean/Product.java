@@ -1,11 +1,12 @@
 package com.tcsKart.ProductService.bean;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 
-//import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -19,8 +20,23 @@ public class Product {
     private String category;
     private Integer quantity;
 
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<Review> reviewList = new ArrayList<>();
+
     public Product(){
 
+    }
+
+    public Product(Integer productId, String productName, Double price, String description, Double rating, String category, Integer quantity, List<Review> reviewList) {
+        this.productId = productId;
+        this.productName = productName;
+        this.price = price;
+        this.description = description;
+        this.rating = rating;
+        this.category = category;
+        this.quantity = quantity;
+        this.reviewList = reviewList;
     }
 
     public Product(Integer productId, String productName, Double price, String description, Double rating, String category, Integer quantity) {
@@ -87,5 +103,13 @@ public class Product {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
     }
 }
